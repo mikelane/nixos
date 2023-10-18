@@ -35,9 +35,9 @@
       # the `inputs.nixpkgs` of the current flake,
       # to avoid problems caused by different versions of nixpkgs.
       inputs.nixpkgs.follows = "nixpkgs";
-      
+
     };
-    
+
     helix.url = "github:helix-editor/helix/23.05";
     nixvim = {
       url = "github:nix-community/nixvim";
@@ -107,14 +107,14 @@
         # you'll have to manually configure these parameters using `specialArgs`. 
         # you must use `specialArgs` by uncomment the following line:
         #
-        specialArgs = inputs;  # pass custom arguments into all sub module.
+        specialArgs = inputs; # pass custom arguments into all sub module.
         modules = [
           # Import the configuration.nix here, so that the
           # old configuration file can still take effect.
           # Note: configuration.nix itself is also a Nix Module,
           ./configuration.nix
 
-          ({ config, pkgs, ...}: {
+          ({ config, pkgs, ... }: {
             nixpkgs.overlays = [ alacritty-theme.overlays.default ];
           })
 
@@ -123,7 +123,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
 
-            home-manager.users.mikelane = import ./home.nix;
+            home-manager.users.mikelane = import ./home;
 
             # Optionally, use home-manager.extraSpecialArgs to pass arguments to home.nix
             home-manager.extraSpecialArgs = { inherit inputs; };

@@ -94,8 +94,8 @@
       reta = "(cd $HOME/workplace/rewst-app/packages/engine; DATABASE_HOST=localhost DATABASE_PORT=15432 KAFKA_BROKER=127.0.0.1:19092 pytest -ra -n 24 -vv)";
       retax = "(cd $HOME/workplace/rewst-app/packages/engine; DATABASE_HOST=localhost DATABASE_PORT=15432 KAFKA_BROKER=127.0.0.1:19092 pytest -ra -n 24 -x -vv)";
       rets = "(cd $HOME/workplace/rewst-app/packages/engine; DATABASE_HOST=localhost DATABASE_PORT=15432 KAFKA_BROKER=127.0.0.1:19092 pytest -ra -vv)";
-      update = "sudo nixos-rebuild switch --flake /etc/nixos/ && exec zsh";
-      update_system = "cd ~/nixos-config && sudo nix flake update && update && cd -";
+      update = "sudo nixos-rebuild switch --flake $HOME/nixos/ && exec zsh";
+      update_system = "(cd $HOME/nixos && sudo nix flake update && update)";
     };
 
     # Oh-My-Zsh has a lot of nice aliases and functions, so I enable it here. In NixOS, managing

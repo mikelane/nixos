@@ -1,10 +1,8 @@
 { config, pkgs, inputs, ... }:
 
-# home-manager.users.mikelane.nix.package
-
 {
   imports = [
-    ./shell/zsh.nix
+    ../shell/zsh.nix
     inputs.nixvim.homeManagerModules.nixvim
   ];
   # Home Manager needs a bit of information about you and the paths it should
@@ -27,16 +25,12 @@
   # release notes.
   home.stateVersion = "23.05"; # Please read the comment before changing.
 
-  # nix = {
-  #   package = pkgs.nix;
-  # };
-
   nixpkgs.config = {
     allowUnfree = true;
   };
 
   home.packages = with pkgs; [
-    (callPackage ./scripts/dump-qa-db.nix {})
+    (callPackage ../scripts/dump-qa-db.nix { })
 
     _1password
     _1password-gui
@@ -88,6 +82,7 @@
     slack
     starship
     thefuck
+    tldr
     uhk-agent
     unzip
     usbutils
