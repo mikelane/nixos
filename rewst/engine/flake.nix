@@ -30,7 +30,7 @@
               # We have to inform python where to find libcrypto.so, libssl.so, and libstdc++.so.6 because nixos puts these binary files into a
               #  dynamically generated location in `/nix/store`. 
               LD_LIBRARY_PATH = "${openssl-pkg.lib.makeLibraryPath [ openssl-pkg.openssl ]}:${pkgs.lib.makeLibraryPath [ pkgs.stdenv.cc.cc.lib ]}";
-              TEST_YARN_BIN = "${pkgs.yarn}/libexec/yarn/bin/yarn.js";  # :poop: but it works...
+              TEST_YARN_BIN = "${pkgs.yarn}/libexec/yarn/bin/yarn.js"; # :poop: but it works...
             };
 
             dotenv.enable = true;

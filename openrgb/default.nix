@@ -4,7 +4,8 @@ let
     #!/bin/sh
     ${pkgs.openrgb-with-all-plugins}/bin/openrgb -c FC6600
   '';
-in {
+in
+{
   config = {
     services.udev.packages = [ pkgs.openrgb-with-all-plugins ];
     boot.kernelModules = [ "i2c-dev" ];
@@ -12,7 +13,7 @@ in {
 
     systemd.services.default-rgb = {
       description = "default-rgb";
-      path = [ "/run/current-system/sw/" ];  # Fix empty PATH to find qt plugins
+      path = [ "/run/current-system/sw/" ]; # Fix empty PATH to find qt plugins
       serviceConfig = {
         ExecStart = "${default-rgb}/bin/default-rgb";
         Type = "oneshot";

@@ -1,4 +1,4 @@
-{ pkgs, ... }: 
+{ pkgs, ... }:
 
 {
   programs.autojump.enable = true;
@@ -56,7 +56,7 @@
       ignoreAllDups = true;
     };
 
-   initExtra = ''
+    initExtra = ''
       . "/etc/profiles/per-user/mikelane/etc/profile.d/hm-session-vars.sh"
 
       # Make zsh-autosuggestions up key work better
@@ -85,7 +85,7 @@
     shellAliases = {
       aws-connect-qa = "awsvpnclient start --config $HOME/workplace/rewst-qa-vpn-client-config.ovpn";
       cat = "bat";
-      dcd= "docker compose -f $HOME/workplace/rewst-app/packages/engine/tests/.dev/docker-compose.yml down";
+      dcd = "docker compose -f $HOME/workplace/rewst-app/packages/engine/tests/.dev/docker-compose.yml down";
       dcu = "docker compose -f $HOME/workplace/rewst-app/packages/engine/tests/.dev/docker-compose.yml up -d";
       k = "kubectl";
       ls = "eza --icons --long --group-directories-first --classify --git --all --extended";
