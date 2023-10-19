@@ -1,9 +1,4 @@
 {
-  imports = [
-    ./aliases.nix
-    ./starship.nix
-  ];
-
   programs.autojump.enable = true;
 
 
