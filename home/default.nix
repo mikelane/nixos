@@ -2,7 +2,8 @@
 
 {
   imports = [
-    ../shell/zsh.nix
+    ./shell/zsh.nix
+    ../rewst
     inputs.nixvim.homeManagerModules.nixvim
   ];
   # Home Manager needs a bit of information about you and the paths it should
@@ -30,20 +31,16 @@
   };
 
   home.packages = with pkgs; [
-    (callPackage ../scripts/dump-qa-db.nix { })
-
     _1password
     _1password-gui
     alacritty
     autojump
-    awscli2
-    inputs.awsvpnclient.packages.x86_64-linux.awsvpnclient
+    audacity
     bat
     btop
     dnsutils
     discord
     dmidecode
-    envsubst
     eza
     firefox
     fortune
@@ -52,18 +49,13 @@
     fzf-git-sh
     gh
     google-chrome
-    helmfile
     ipfetch
     jetbrains-toolbox
     jq
-    k9s
     kate
-    kubectl
-    (wrapHelm kubernetes-helm { plugins = [ kubernetes-helmPlugins.helm-diff ]; })
     less
     lolcat
     lshw
-    minikube
     moreutils
     neo-cowsay
     neofetch
@@ -75,8 +67,6 @@
     nodePackages_latest.yarn
     nodePackages_latest."@antfu/ni"
     p7zip
-    pgcli
-    postgresql_14
     ripgrep
     shell_gpt
     slack
