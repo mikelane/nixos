@@ -67,6 +67,7 @@
       fzf-git-sh
       gh
       google-chrome
+      icdiff
       ipfetch
       jq
       kate
