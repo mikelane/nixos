@@ -27,11 +27,9 @@
       EDITOR = "nvim";
       AWS_PAGER = "bat --plain --paging=auto --language=json --theme=TwoDark";
       AWS_DEFAULT_OUTPUT = "json";
-      OPENAI_API_KEY = "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";
       ZPLUG_PROTOCOL = "SSH";
       LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [ pkgs.openssl.out ];
       PKG_CONFIG_PATH = "${pkgs.lib.makeLibraryPath [ pkgs.openssl.dev ]}/pkgconfig";
-      MINIKUBE_CLUSTER_IP = "192.168.49.2";
     };
 
     # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -52,6 +50,7 @@
     packages = with pkgs; [
       _1password
       _1password-gui
+      inputs.agenix.packages.x86_64-linux.agenix
       alacritty
       autojump
       audacity
@@ -69,7 +68,6 @@
       gh
       google-chrome
       ipfetch
-      jetbrains-toolbox
       jq
       kate
       less
@@ -86,6 +84,8 @@
       nodePackages_latest.yarn
       nodePackages_latest."@antfu/ni"
       p7zip
+      python311Full
+      python311Packages.black
       ripgrep
       shell_gpt
       slack

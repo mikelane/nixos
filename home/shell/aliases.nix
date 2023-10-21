@@ -4,6 +4,7 @@
     cat = "bat";
     dcd = "docker compose -f $HOME/workplace/rewst-app/packages/engine/tests/.dev/docker-compose.yml down";
     dcu = "docker compose -f $HOME/workplace/rewst-app/packages/engine/tests/.dev/docker-compose.yml up -d";
+    dcps = "docker compose -f $HOME/workplace/rewst-app/packages/engine/tests/.dev/docker-compose.yml ps";
     nix-lint = ''find . -name "*.nix" ! -name "hardware-configuration.nix" -exec nixpkgs-fmt {} +'';
     k = "kubectl";
     ls = "eza --icons --long --group-directories-first --classify --git --all --extended";

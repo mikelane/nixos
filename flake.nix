@@ -26,6 +26,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-23.05";
     awsvpnclient.url = "github:ymatsiuk/awsvpnclient";
+    agenix.url = "github:ryantm/agenix";
 
     # home-manager, used for managing user configuration
     home-manager = {
@@ -56,7 +57,7 @@
   # 
   # The `@` syntax here is used to alias the attribute set of the
   # inputs's parameter, making it convenient to use inside the function.
-  outputs = inputs@{ self, nixpkgs, nixpkgs-stable, home-manager, awsvpnclient, alacritty-theme, ... }: {
+  outputs = inputs@{ self, nixpkgs, nixpkgs-stable, home-manager, awsvpnclient, alacritty-theme, agenix, ... }: {
     nixosConfigurations = {
       # By default, NixOS will try to refer the nixosConfiguration with
       # its hostname, so the system named `nixos-test` will use this one.
@@ -113,6 +114,8 @@
           # old configuration file can still take effect.
           # Note: configuration.nix itself is also a Nix Module,
           ./configuration.nix
+
+          agenix.nixosModules.default
 
           ({ config, pkgs, ... }: {
             nixpkgs.overlays = [ alacritty-theme.overlays.default ];

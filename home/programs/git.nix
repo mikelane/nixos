@@ -24,6 +24,7 @@
       ".direnv"
       ".devenv"
       ".idea"
+      "pytest-logs"
     ];
   };
 }

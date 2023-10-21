@@ -36,10 +36,14 @@
             dotenv.enable = true;
 
             packages = [
-              openssl-pkg.openssl
-              pkgs.python311Full
-              (pkgs.poetry.withPlugins (ps: with ps; [ poetry-plugin-up ]))
               pkgs.nodejs_18
+              openssl-pkg.openssl
+              (pkgs.poetry.withPlugins (ps: with ps; [ poetry-plugin-up ]))
+              pkgs.pre-commit
+              pkgs.python311Full
+              pkgs.python311Packages.black
+              pkgs.python311Packages.isort
+              pkgs.ruff
               pkgs.yarn
             ];
 
@@ -49,7 +53,12 @@
               echo "  LD_LIBRARY_PATH: $LD_LIBRARY_PATH"
               echo "  TEST_YARN_BIN: $TEST_YARN_BIN"
               echo "===================================================================================================================================================="
-              echo 
+              echo
+              echo "Docker Compose Services:"
+              docker compose -f ./tests/.dev/docker-compose.yml ps --format "table {{.Name}}\t{{.Service}}\t{{.CreatedAt}}\t{{.Status}}"
+              echo
+              minikube status
+              echo
             '';
           })
         ];

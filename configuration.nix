@@ -157,15 +157,18 @@
     pathsToLink = [ "~/.zsh/completions" ];
 
     systemPackages = with pkgs; [
+      age
       curl
       gcc
       git
       git-credential-1password
       glxinfo
+      jetbrains.idea-ultimate
+      jetbrains.pycharm-professional
+      jetbrains.webstorm
       openrgb-with-all-plugins
       openssl
       pciutils
-      vim
       wget
       xclip
     ];
@@ -174,6 +177,19 @@
       EDITOR = "nvim";
     };
   };
+
+  age.secrets = {
+    openai_api_key = {
+      file = ./secrets/openai_api_key.age;
+      owner = "mikelane";
+      group = "wheel";
+      mode = "440";
+    };
+  };
+
+  fonts.packages = with pkgs; [
+    nerdfonts
+  ];
 
   # List services that you want to enable:
   services = {

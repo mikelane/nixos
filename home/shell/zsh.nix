@@ -40,6 +40,8 @@
       zle -N _sgpt_zsh
       bindkey ^k _sgpt_zsh
       # Shell-GPT integration ZSH v0.1
+
+      OPENAI_API_KEY=$(cat /run/agenix/openai_api_key)
     '';
 
     # Oh-My-Zsh has a lot of handy aliases and functions. But it was giving me trouble, so I decided to
