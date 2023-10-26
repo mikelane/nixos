@@ -56,6 +56,7 @@
       audacity
       bat
       btop
+      caffeine-ng
       dnsutils
       discord
       dmidecode
@@ -67,7 +68,6 @@
       fzf-git-sh
       gh
       google-chrome
-      icdiff
       ipfetch
       jq
       kate
