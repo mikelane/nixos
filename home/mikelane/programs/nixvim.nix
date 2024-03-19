@@ -45,8 +45,8 @@
 
     plugins = {
       coq-nvim = {
-        enable = true;
-        autoStart = "shut-up";
+        enable = false;
+        settings.autoStart = "shut-up";
         installArtifacts = true;
       };
 

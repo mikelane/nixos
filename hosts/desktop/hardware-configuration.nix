@@ -5,7 +5,8 @@
 
 {
   imports =
-    [ (modulesPath + "/installer/scan/not-detected.nix")
+    [
+      (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
@@ -14,25 +15,27 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/939c8970-5c8a-4f29-a0d8-742616887c59";
+    {
+      device = "/dev/disk/by-uuid/939c8970-5c8a-4f29-a0d8-742616887c59";
       fsType = "ext4";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/4019-8325";
+    {
+      device = "/dev/disk/by-uuid/4019-8325";
       fsType = "vfat";
     };
 
   fileSystems."/mnt/data" = {
     device = "/dev/disk/by-label/data";
     fsType = "auto";
-    options = [ "nosuid" "nodev" "nofail" "x-gvfs-show"];
+    options = [ "nosuid" "nodev" "nofail" "x-gvfs-show" ];
   };
 
   swapDevices = [ ];
 
   hardware.ckb-next.enable = true;
-  
+
   hardware.bluetooth.enable = true;
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking

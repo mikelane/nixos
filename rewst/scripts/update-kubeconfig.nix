@@ -52,3 +52,4 @@ pkgs.writeShellScriptBin "update-kubeconfig" ''
       exit 1
   fi
 ''
+

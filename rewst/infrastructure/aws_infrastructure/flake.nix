@@ -36,6 +36,7 @@
               echo "======================================================================================="
               echo "  Using node from ${pkgs.nodejs_18}"
               echo "  Using pnpm from ${pkgs.nodePackages.pnpm}"
+              echo "  LD_LIBRARY_PATH: $LD_LIBRARY_PATH" 
               echo "======================================================================================="
               echo 
             '';
@@ -44,5 +45,4 @@
       };
     };
 }
-
 

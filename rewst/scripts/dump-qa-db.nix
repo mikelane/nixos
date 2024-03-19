@@ -1,47 +1,44 @@
 { pkgs }:
 
-pkgs.writeShellScriptBin "dump-qa-db" ''
-  cleanup() {
-    echo -e "\e[1;33mKilling the VPN process $QA_PID\e[0m"
-    kill $QA_PID 2>/dev/null
-  }
-  trap cleanup EXIT
+pkgs.writeShellApplication {
+  name = "dump-qa-db";
+  runtimeInputs = with pkgs; [ postgresql_16 ];
+  text = ''
+    AUTOMATIC="no"
+    while getopts "y" opt; do
+      case $opt in
+        y) AUTOMATIC="yes";;
+        \?) echo "Invalid option: -$OPTARG" >&2; exit 1;;
+      esac
+    done
 
-  echo -e "\e[1;34mConnecting to QA VPN in the background\e[0m"
-  awsvpnclient start --config $HOME/workplace/rewst-qa-vpn-client-config.ovpn > /dev/null 2>&1 &
-  QA_PID=$!
-
-  echo -e "\e[1;34mSleeping for 15 seconds to ensure the VPN connection has started\e[0m"
-  sleep 15
-
-  echo -e "\e[1;34mDumping the database schema and data to local files\e[0m"
-
-  if [[ -z "''\${QA_DB_PASSWORD}" ]]; then
-    echo -ne "\e[1;32mPlease enter the QA database password (you can find it in the Rewst 1password vault): \e[0m"
-    read -s QA_DB_PASSWORD
-    echo
-  fi
-
-  export PGPASSWORD="''\${QA_DB_PASSWORD}"
-  pg_dump --host db.qa.rewst --port 5432 --username rewst --dbname rewst --schema public --format custom --schema-only --file schema.dump --no-privileges --no-security-labels --no-tablespaces --verbose --exclude-table-data 'public.workflow_executions' --exclude-table-data 'public.task_logs' --exclude-table-data 'public.action_options' --exclude-table-data 'public.action_options' --exclude-table-data 'public.database_notifications'
-  pg_dump --host db.qa.rewst --port 5432 --username rewst --dbname rewst --schema public --format custom --data-only --disable-triggers --file data.dump --no-privileges --no-security-labels --no-tablespaces --verbose --exclude-table-data 'public.workflow_executions' --exclude-table-data 'public.task_logs' --exclude-table-data 'public.action_options' --exclude-table-data 'public.action_options' --exclude-table-data 'public.database_notifications'
-
-  echo -ne "\e[1;32mDo you want to dump the data into your local database?\e[0m "
-  read -n 1 -r REPLY
-  echo
-  if [[ $REPLY =~ ^[Yy]$ ]]
-  then
-    # ensure minikube is running
-    if ! minikube status >/dev/null 2>&1; then
-      echo -e "\e[1;34mStarting minikube...\e[0m"
-      minikube start
+    if is-logged-into-sso rewst-qa; then
+      cecho green "You are logged into rewst-qa."
+    else
+      cecho yellow "Not logged into SSO for rewst-qa. Logging you in now..."
+      sso rewst-qa
     fi
 
-    echo -e "\e[1;34mRestoring the database from the files...\e[0m"
-    SERVICE_IP=$(minikube ip)
-    export PGPASSWORD=secretpassword
-    pg_restore --host $SERVICE_IP --port 31514 --user postgres --dbname rewst --no-owner --no-privileges --no-security-labels --clean --if-exists --verbose schema.dump
-    pg_restore --host $SERVICE_IP --port 31514 --user postgres --dbname rewst --no-owner --no-privileges --no-security-labels --clean --if-exists --disable-triggers --verbose data.dump
-  fi
-''
+    cecho blue "Starting the rewst-qa rds tunnel"
+    tunnel-to-rds --env=rewst-qa
 
+    cecho yellow "Waiting for 5 seconds to ensure the tunnel is established..."
+    sleep 5
+
+    cecho blue "Dumping the database schema and data to local files"
+
+    pg_dump --dbname=service=rewst-qa --schema public --format custom --schema-only --file schema.dump --no-privileges --no-security-labels --no-tablespaces --verbose
+    pg_dump --dbname=service=rewst-qa --schema public --format custom --data-only --disable-triggers --file data.dump --no-privileges --no-security-labels --no-tablespaces --verbose --exclude-table-data 'public.workflow_executions' --exclude-table-data 'public.task_logs' --exclude-table-data 'public.action_options' --exclude-table-data 'public.database_notifications' --exclude-table-data 'public.workflow_execution_contexts' --exclude-table-data 'public.task_execution_stats*' --exclude-table-data 'public.workflow_execution_stats*'
+
+    if [[ $AUTOMATIC == "yes" ]] || { read -p "$(cecho green "Do you want to dump the data into your local database? (y/n) ")" -n 1 -r REPLY; echo; [[ $REPLY =~ ^[Yy]$ ]]; }; then
+      if ! minikube status >/dev/null 2>&1; then
+        cecho blue "Starting minikube..."
+        minikube start
+      fi
+
+      cecho blue "Restoring the minikube database from the files..."
+      pg_restore --dbname=service=minikube --no-owner --no-privileges --no-security-labels --clean --if-exists --verbose schema.dump
+      pg_restore --dbname=service=minikube --no-owner --no-privileges --no-security-labels --clean --if-exists --disable-triggers --verbose data.dump
+    fi
+  '';
+}

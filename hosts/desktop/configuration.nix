@@ -19,11 +19,11 @@
   imports =
     [
       # Include the results of the hardware scan.
-      ../hardware-configuration.nix
-      ../openrgb
-      ../rewst/nginx
-      ../rewst/hosts.nix
-      ../rewst/dnsmasq.nix
+      ./hardware-configuration.nix
+      ../../openrgb
+      ../../rewst/nginx
+      ../../rewst/hosts.nix
+      ../../rewst/dnsmasq.nix
     ];
 
   nix.settings = {
@@ -89,7 +89,7 @@
     };
   };
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "desktop"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -127,6 +127,12 @@
     gnupg.agent = {
       enable = true;
       enableSSHSupport = true;
+      pinentryPackage = lib.mkForce pkgs.pinentry-qt;
+    };
+
+    tmux = {
+      enable = true;
+      clock24 = true;
     };
 
     mtr.enable = true;
@@ -143,6 +149,9 @@
   };
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.permittedInsecurePackages = [
+    "nix-2.15.3"
+  ];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -163,9 +172,12 @@
       git
       git-credential-1password
       glxinfo
-      jetbrains.idea-ultimate
-      jetbrains.pycharm-professional
-      jetbrains.webstorm
+      (jetbrains.plugins.addPlugins jetbrains.datagrip [ "github-copilot" ])
+      (jetbrains.plugins.addPlugins jetbrains.idea-ultimate [ "github-copilot" ])
+      jetbrains.jdk
+      (jetbrains.plugins.addPlugins jetbrains.pycharm-professional [ "github-copilot" "nixidea" ])
+      (jetbrains.plugins.addPlugins jetbrains.webstorm [ "github-copilot" ])
+      jetbrains-toolbox
       openrgb-with-all-plugins
       openssl
       pciutils
@@ -175,12 +187,14 @@
 
     variables = {
       EDITOR = "nvim";
+      HOSTNAME = "desktop";
+      FART = "9001";
     };
   };
 
   age.secrets = {
     openai_api_key = {
-      file = ../secrets/openai_api_key.age;
+      file = ../../secrets/openai_api_key.age;
       owner = "mikelane";
       group = "wheel";
       mode = "440";
@@ -222,8 +236,10 @@
       enable = true;
 
       # Configure keymap in X11
-      layout = "us";
-      xkbVariant = "";
+      xkb = {
+        layout = "us";
+        variant = "";
+      };
 
       videoDrivers = [ "nvidia" ];
 
@@ -246,7 +262,7 @@
     #  to be added properly. They will get concatenated into /etc/ssl/certs/ca-certificates.crt
     # Ref: https://search.nixos.org/options?channel=unstable&show=security.pki.certificateFiles&from=0&size=50&sort=relevance&type=packages&query=security.pki.certificateFiles
     pki.certificateFiles = [
-      ../rewst/nginx/certs/trust-root-ca.pem
+      ../../rewst/nginx/certs/trust-root-ca.pem
     ];
 
     polkit.enable = true;

@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ../rewst
+    ../../rewst
     ./shell
     ./programs
   ];
@@ -28,8 +28,10 @@
       AWS_PAGER = "bat --plain --paging=auto --language=json --theme=TwoDark";
       AWS_DEFAULT_OUTPUT = "json";
       ZPLUG_PROTOCOL = "SSH";
-      LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [ pkgs.openssl.out ];
+      # LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [ pkgs.openssl.out ];
       PKG_CONFIG_PATH = "${pkgs.lib.makeLibraryPath [ pkgs.openssl.dev ]}/pkgconfig";
+      PATH = "$HOME/.krew/bin:${pkgs.kubernetes}/bin:$PATH";
+      KREW_ROOT = "$HOME/.krew";
     };
 
     # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -56,6 +58,7 @@
       audacity
       bat
       btop
+      busybox
       caffeine-ng
       dnsutils
       discord
@@ -68,16 +71,23 @@
       fzf-git-sh
       gh
       google-chrome
+      home-manager
       ipfetch
       jq
       kate
+      krew
+      kubectl
+      kubernetes
       less
       lolcat
       lshw
+      lsof
       moreutils
       neo-cowsay
       neofetch
       nix-output-monitor
+      nix-prefetch-git
+      nix-prefetch-github
       nixpkgs-fmt
       nnn
       nodePackages_latest.pnpm
@@ -85,12 +95,26 @@
       nodePackages_latest.yarn
       nodePackages_latest."@antfu/ni"
       p7zip
+      pandoc
+      pre-commit
+      prettyping
+      prusa-slicer
       python311Full
       python311Packages.black
+      python311Packages.isort
+      python311Packages.jupyterlab
+      python311Packages.pip
+      python311Packages.ptpython
+      python311Packages.pydantic
+      python311Packages.std2
       ripgrep
+      ruff
       shell_gpt
+      shellcheck
       slack
+      smenu
       starship
+      stern
       thefuck
       tldr
       uhk-agent
