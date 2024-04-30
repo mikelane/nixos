@@ -22,7 +22,7 @@
       ripgrep
     ];
 
-    options = {
+    opts = {
       cursorline = true;
       number = true;
       expandtab = true;
