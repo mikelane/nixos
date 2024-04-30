@@ -81,7 +81,7 @@
 
   # Bootloader.
   boot = {
-    kernelModules = [ "i2c-dev" "i2c-piix4" ];
+    kernelModules = [ "i2c-dev" "i2c-piix4" "igc" ];
 
     loader = {
       systemd-boot.enable = true;
@@ -171,6 +171,7 @@
       gcc
       git
       git-credential-1password
+      glibc
       glxinfo
       (jetbrains.plugins.addPlugins jetbrains.datagrip [ "github-copilot" ])
       (jetbrains.plugins.addPlugins jetbrains.idea-ultimate [ "github-copilot" ])
@@ -231,6 +232,7 @@
       KERNEL=="hidraw*", ATTRS{idVendor}=="1d50", ATTRS{idProduct}=="612[0-7]", TAG+="uaccess"
     '';
 
+    displayManager.sddm.enable = true;
     xserver = {
       # Load nvidia driver for Xorg and Wayland
       enable = true;
@@ -244,7 +246,6 @@
       videoDrivers = [ "nvidia" ];
 
       # Enable the KDE Plasma Desktop Environment.
-      displayManager.sddm.enable = true;
       desktopManager.plasma5.enable = true;
     };
   };
