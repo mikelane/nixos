@@ -2,7 +2,7 @@
 
 pkgs.writeShellApplication {
   name = "is-logged-into-sso";
-  runtimeInputs = with pkgs; [ awscli2 ];
+  # runtimeInputs = with pkgs; [ awscli2 ];
   text = ''
     if [ "$#" -ne 1 ]; then
         echo "Usage: $0 <profile>"

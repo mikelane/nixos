@@ -6,7 +6,6 @@
     (callPackage ./scripts/update-kubeconfig.nix { })
     (callPackage ./scripts/is-logged-into-sso.nix { })
 
-    awscli2
     inputs.awsvpnclient.packages.x86_64-linux.awsvpnclient
     eksctl
     envsubst
