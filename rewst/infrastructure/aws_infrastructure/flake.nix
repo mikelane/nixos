@@ -23,18 +23,18 @@
             dotenv.enable = true;
 
             env = {
-              NODE_PATH = "${pkgs.nodejs_18}/bin";
+              NODE_PATH = "${pkgs.nodejs_20}/bin";
             };
 
             packages = [
-              pkgs.nodejs_18
+              pkgs.nodejs_20
               pkgs.nodePackages.pnpm
             ];
 
             enterShell = ''
               echo
               echo "======================================================================================="
-              echo "  Using node from ${pkgs.nodejs_18}"
+              echo "  Using node from ${pkgs.nodejs_20}"
               echo "  Using pnpm from ${pkgs.nodePackages.pnpm}"
               echo "  LD_LIBRARY_PATH: $LD_LIBRARY_PATH" 
               echo "======================================================================================="
