@@ -38,7 +38,6 @@
       # the `inputs.nixpkgs` of the current flake,
       # to avoid problems caused by different versions of nixpkgs.
       inputs.nixpkgs.follows = "nixpkgs";
-
     };
 
     helix.url = "github:helix-editor/helix/23.05";
@@ -59,7 +58,12 @@
   # 
   # The `@` syntax here is used to alias the attribute set of the
   # inputs's parameter, making it convenient to use inside the function.
-  outputs = inputs@{ self, nixpkgs, home-manager, flake-utils, awsvpnclient, alacritty-theme, agenix, ... }: {
+  outputs = inputs@{ self, nixpkgs, nixpkgs-stable, home-manager, flake-utils, awsvpnclient, alacritty-theme, agenix, ... }:
+    let
+        pkgs = nixpkgs.legacyPackages."x86_64-linux";
+        pkgs-stable = nixpkgs-stable.legacyPackages."x86_64-linux";
+    in
+  {
 
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
 
@@ -120,8 +124,8 @@
         # old configuration file can still take effect.
         # Note: configuration.nix itself is also a Nix Module,
         ./hosts/desktop/configuration.nix
+        agenix.nixosModules.default
 
-        inputs.agenix.nixosModules.default
         ({ pkgs, ... }: {
           nixpkgs.overlays = [ inputs.alacritty-theme.overlays.default ];
         })
@@ -130,21 +134,22 @@
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.users.mikelane = import ./home/mikelane;
-          home-manager.extraSpecialArgs = { inherit inputs; };
+          home-manager.extraSpecialArgs = { inherit inputs pkgs-stable; };
         })
         ({ config, pkgs, ... }: {
-          environment.systemPackages = with pkgs; [
-            home-manager
-            (callPackage ./scripts/update.nix { })
-            (callPackage ./scripts/flake-update.nix { })
-            (callPackage ./scripts/cecho.nix { })
-            (callPackage ./scripts/kubectl-change-context.nix { })
-            (callPackage ./scripts/generate-commit-message.nix { })
-            (callPackage ./scripts/generate-pull-request.nix { })
-            (callPackage ./scripts/tunnel-to-rds.nix { })
-            (callPackage ./scripts/sso.nix { })
-            (callPackage ./scripts/getktxs.nix { })
-            (callPackage ./scripts/sshpod.nix { })
+          environment.systemPackages = [
+            pkgs.home-manager
+            agenix.packages.x86_64-linux.default
+            (pkgs.callPackage ./scripts/update.nix { })
+            (pkgs.callPackage ./scripts/flake-update.nix { })
+            (pkgs.callPackage ./scripts/cecho.nix { })
+            (pkgs.callPackage ./scripts/kubectl-change-context.nix { })
+            (pkgs.callPackage ./scripts/generate-commit-message.nix { })
+            (pkgs.callPackage ./scripts/generate-pull-request.nix { })
+            (pkgs.callPackage ./scripts/tunnel-to-rds.nix { })
+            (pkgs.callPackage ./scripts/sso.nix { })
+            (pkgs.callPackage ./scripts/getktxs.nix { })
+            (pkgs.callPackage ./scripts/sshpod.nix { })
           ];
         })
       ];
