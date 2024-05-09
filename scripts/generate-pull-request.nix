@@ -5,7 +5,7 @@ let
 in
 pkgs.writeShellApplication {
   name = "generate-pull-request-body";
-  runtimeInputs = with pkgs; [ shell_gpt ];
+  runtimeInputs = with pkgs; [ shell-gpt ];
   text = ''
     get_ticket_number() {
         git rev-parse --abbrev-ref HEAD | grep -o 'sc-\([0-9]\+\)' | grep -o '[0-9]\+'

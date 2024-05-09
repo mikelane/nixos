@@ -46,7 +46,7 @@ let
 in
 pkgs.writeShellApplication {
   name = "generate-commit-message";
-  runtimeInputs = with pkgs; [ shell_gpt pandoc ];
+  runtimeInputs = with pkgs; [ shell-gpt pandoc ];
   text = ''
     generate_commit_message() {
         local diff_output_file

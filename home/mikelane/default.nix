@@ -112,7 +112,7 @@
       pkgs.python312Packages.std2
       pkgs.ripgrep
       pkgs.ruff
-      pkgs.shell_gpt
+      pkgs.shell-gpt
       pkgs.shellcheck
       pkgs.slack
       pkgs.smenu
