@@ -5,7 +5,8 @@ let
 Please generate a commit message from the included changes with the
 following guidelines:
 
-1. It should begin with a short ''\(72 chars or less''\) summary.
+1. It should begin with a short ''\(72 chars or less''\) summary which
+   follows the conventional commits guidelines.
 2. Do not preface the summary with any kind of title or heading and do
    not use markdown in the summary
 3. Following the summary, it should include more detailed explanatory
