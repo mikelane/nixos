@@ -96,6 +96,7 @@
       pkgs.nodePackages_latest.npm
       pkgs.nodePackages_latest.yarn
       pkgs.nodePackages_latest."@antfu/ni"
+      pkgs.obsidian
       pkgs.p7zip
       pkgs.pandoc
       pkgs.pre-commit

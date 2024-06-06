@@ -161,7 +161,6 @@
       curl
       gcc
       git
-      git-credential-1password
       glxinfo
       jetbrains.idea-ultimate
       jetbrains.pycharm-professional

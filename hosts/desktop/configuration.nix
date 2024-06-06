@@ -170,7 +170,6 @@
       curl
       gcc
       git
-      git-credential-1password
       glibc
       glxinfo
       (jetbrains.plugins.addPlugins jetbrains.datagrip [ "github-copilot" ])
