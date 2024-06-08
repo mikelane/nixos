@@ -24,6 +24,7 @@
             env = {
                 PTPYTHON_CONFIG_HOME = "/home/mikelane/.local/share/ptpython/";
             };
+
             dotenv.enable = true;
 
             packages = with pkgs; [
