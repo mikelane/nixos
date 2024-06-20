@@ -25,6 +25,7 @@
       ".devenv"
       ".idea"
       "pytest-logs"
+      "*delete-me*"
     ];
   };
 }
